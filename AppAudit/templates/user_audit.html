@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit du {{date}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/user_audit.css' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="menu">
+            <a href="{% url 'dashboardUser' %}"><i data-feather="arrow-left"></i></a>
+            <p>Audit - {{date}}</p>
+        </div>
+        <div class="settings">
+            <i data-feather="settings"></i>
+        </div>
+    </header>
+    <main>
+        <div class="standardform-list">
+
+            
+        </div>
+        <div class="valider">Finaliser l'audit</div>
+    </main>
+    <div class="fenetre-commentaire">
+        <div class="close">
+            <i data-feather="x"></i>
+        </div>
+        <h2>Ajouter un commentaire</h2>
+        <textarea name="commentaire" class="commentaire-input"></textarea>
+        <div class="valider-commentaire">Valider</div>
+    </div>
+</body>
+<script type="module" src="{% static 'js/user_audit.js' %}"></script>
+</html>

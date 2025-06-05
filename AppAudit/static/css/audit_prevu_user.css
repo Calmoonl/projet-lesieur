@@ -1,0 +1,11 @@
+.audit-item{
+    background: var(--linen);
+    display: flex;
+    flex-direction: column;
+}
+
+.commencer-audit{
+    background: var(--black-bean);
+    border-radius: 999px;
+
+}   

@@ -1,0 +1,197 @@
+{% extends "aside/aside.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    {{block.super}}
+    <title>Standards</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/standards.css' %}"/>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <form class="ajout-ligne" method="POST">
+        <div class="ajout-ligne-header">
+            <h2>Ajout Ligne</h2>
+            <i data-feather="x" class="ajout-ligne-fermer"></i>
+        </div>
+        {% csrf_token %}
+        <div>
+            <p>Nom de la ligne</p>
+            <input type="text" placeholder="Nom de la ligne">
+        </div>
+    <div class="validation-ajout-ligne-bouton">Ajouter</div>
+    </form>
+    <form class="ajout-machine" method="POST">
+        <div class="ajout-machine-header">
+            <h2>Ajout Machine</h2>
+            <i data-feather="x" class="ajout-machine-fermer"></i>
+        </div>
+        {% csrf_token %}
+        <div>
+            <p>Nom de la machine</p>
+            <input type="text" placeholder="Nom de la machine">
+        </div>
+    <div class="validation-ajout-machine-bouton">Ajouter</div>
+    </form>
+    <form class="ajout-standard" method="POST">
+        <div class="ajout-standard-fenetre">
+            <div class="ajout-standard-header">
+                <h2>Ajout standards</h2>
+                <i data-feather="x" class="ajout-standard-fermer"></i>
+            </div>
+            {% csrf_token %}
+            <div>
+                <label for="ligne">Ligne</label>
+                <select name="ligne" class="ajout-standard-ligne-select">
+                    {% for ligne in lignes %}
+                        <option value="{{ligne.num_ligne}}">{{ligne.num_ligne}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="machine">Machine</label>
+                <select name="machine" class="ajout-standard-vmachine-select">
+                    {% for ligne in lignes %}
+                        {% for machine in ligne.machines %}
+                            <option value="{{machine.designation}}">{{machine.designation}}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="repere">Repère</label>
+                <input type="text" class="ajout-standard-repere-input" placeholder="Repère du standard">
+            </div>
+            <div>
+                <label for="designation">Désignation</label>
+                <input type="text" class="ajout-standard-designation-input" placeholder="Désignation">
+            </div>
+            <div>
+                <label for="unite">Unité</label>
+                <input type="text" class="ajout-standard-unite-input" placeholder="Unité">
+            </div>
+            <div>
+                <p>Format(s)</p>
+                <div class="ajout-standard-format">
+                    <div class="format-designations">
+                        <div class="format-designation">
+                            <input type="text" placeholder="Désignation" class="format-designation-input">
+                        </div>
+                        <div class="format-designation-add">
+                            <i data-feather="plus"></i>
+                        </div>
+                    </div>
+                    <div class="format-separator"></div>
+                    <div class="format-valeurs">
+                        <div class="format-valeur">
+                            <input type="text" placeholder="Valeur" class="format-valeur-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="ajout_standard_image_upload">
+                    <div class="ajout-standard-fake-upload">
+                        <i data-feather="upload"></i>
+                        Importer une image <span></span>
+                    </div>
+                    <input type="file" name="" id="ajout_standard_image_upload" class="ajout-standard-image-upload">
+                </label>
+            </div>
+            <div class="validation-ajout-standard-bouton">Ajouter</div>
+        </div>
+    </form>
+    <main id="swup">
+        <header>
+            <h1>Standards d'audit</h1>
+            <div class="recherche">
+                <input type="text" placeholder="Rechercher" class="recherche-standard">
+                <i data-feather="search"></i>
+            </div>
+        </header>
+        <div class="standard-options">
+            <div class="standard-filtre">
+                <p>Afficher par ligne: </p>
+                <form class="standard-filtre-form" method="POST">
+                    {% csrf_token %}
+                    <select name="standardFiltreSelect" id="standard_filtre_select" class="standard-filtre-select">
+                        {% for ligne in lignes %}
+                        <option value="ligne.designation">{{ligne.num_ligne}}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+            <div class="standard-vue">
+            <i data-feather="chevron-left"></i>
+            <p></p>
+            <i data-feather="chevron-right"></i>
+        </div>
+        </div>
+        
+        <table border=1 frame=void rules=rows>
+            <thead>
+                <td>Machine</td>
+                <td>Ligne</td>
+                <td>Rep</td>
+                <td>Désignation</td>
+                <td>Format</td>
+                <td>Valeur</td>
+                <td>Photo</td>
+            </thead>
+            {% for ligne in lignes %}
+                {% for machine in ligne.machines %}
+                    {% for standard in machine.standards %}
+                    <tr style="opacity: 0; transform: translateX(-5px);">
+                        <td>{{machine.designation}}</td>
+                        <td>{{ligne.num_ligne}}</td>
+                        <td>{{standard.rep}}</td>
+                        <td>{{standard.designation}}</td>
+                        <td>
+                            {% if standard.formats|length == 0 %}
+                                <i style="opacity: 0.8;">Aucun format renseigné</i>
+                            {%elif standard.formats|length == 1 %}
+                                {% for format in standard.formats %}
+                                    <div>{{format.nom}}</div>
+                                {% endfor %}
+                            {% else %}
+                            <select name="format" class="format-input">
+                                {% for format in standard.formats %}
+                                    <option value="{{format.nom}}">{{format.nom}}</option>
+                                {% endfor %}
+                            </select>
+                            {% endif %}
+                            
+                        </td>
+                        <td class="valeur">
+                            {% for format in standard.formats %}
+                                <div>{{format.valeur_attendue}}</div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <img src="{{ standard.photo.url}}" alt="{{ standard.photo.titre }}" style="max-width:300px;">
+                            {% if standard.photo.description %}
+                                <p>{{ standard.photo.description }}</p>
+                            {% endif %}
+                            <p>Ajouté le : {{ standard.photo.date_ajout }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {%endfor%}
+            {%endfor%}
+        </table> 
+        <div class="options-ajout">
+            <div class="ajouter-ligne">Ajouter ligne</div>
+            <div class="ajouter-machine">Ajouter machine</div>
+            <div class="ajouter-standard">Ajouter standard</div>
+        </div>
+    </main>
+    {% endblock %}
+</body>
+{% block script %}
+{{block.super}}
+<script src="{% static 'js/standards.js' %}"></script>
+{% endblock %}
+</html>

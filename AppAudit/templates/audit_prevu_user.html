@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard_user.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard_user.css' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/19.0.0/cjs/react.production.min.js" integrity="sha512-nU+Ng6Lv1UThPJ9vMtDIEfW0pNWLZQsRwh0cCl3WJHjReVWnxLEWSY/esU9/v1iBsfoe0Y71xwOcpoVrhNcU4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="menu">
+            <div class="menu-accueil">
+                <a href="{% url 'dashboardUser' %}">Accueil</a>
+            </div>
+            <div class="menu-audits-historique">Audits</div>
+            <div class="menu-audits-afaire  menu-active">
+                <a href="{% url 'auditPrevuUser' %}">Audit à faire</a>
+                <div class="audit-afaire-nombre">1</div>
+            </div>
+        </div>
+        <div class="settings">
+            <i data-feather="settings"></i>
+        </div>
+    </header>
+    <main>
+        {% for audit in audits %}
+            {{audit}}
+        {% endfor %}
+        <div class="audit-item">
+            <h3>Audit du 20 janvier 2025</h3>
+            <div class="audit-infos">
+                <div class="nombre-standards">Points à contrôler: 10</div>
+                <div class="audit-duree">Durée: 15min</div>
+                <div class="audit-lieux">Lieux: Convoyeurs carton, Encaisseuse</div>
+            </div>
+            <div class="commencer-audit">Commencer l'audit</div>
+        </div>
+    </main>
+</body>
+</html>

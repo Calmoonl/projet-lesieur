@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/aside.css' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="icon" href="{% static 'img/favicon/favicon.ico' %}" type="image/x-icon">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    {% endblock %}
+</head>
+<body>
+    <aside>
+        <div class="dashboard-logo">
+            <img src="{% static 'img/lesieur_logo.png' %}">
+            {% block site %}
+            <p>{{site}}</p>
+            {% endblock %}
+        </div>
+        <div class="dashboard-menu">
+            <a href="{% url 'dashboard' %}">
+                <div class="dashboard-menu-dashboard {% if request.path == '/dashboard' %}active{% endif %}">
+                    <i data-feather="pie-chart"></i>                    
+                    <p>Dashboard</p>
+                </div>
+            </a>
+            <a href="{% url 'standards' %}">
+                <div class="dashboard-menu-standards {% if request.path == '/standards' %}active{% endif %}">
+                    <i data-feather="edit"></i>
+                    <p>Standards d'audits</p>
+                    <div class="menu-standards-add">
+                        <i data-feather="plus"></i>
+                    </div>
+                </div>
+            </a>
+            <a href="{% url 'audits' %}">
+                <div class="dashboard-menu-audits {% if request.path == '/audits' %}active{% endif %}">
+                    <i data-feather="bookmark"></i>
+                    <p>Audits</p>
+                    <div class="menu-audits-add">
+                        <i data-feather="plus"></i>
+                    </div>
+                </div>
+            </a>
+            <a href="{% url 'historique_audits' %}">
+                <div class="dashboard-menu-historique {% if request.path == '/historique_audits' %}active{% endif %}">
+                    <i data-feather="clock"></i>
+                    <p>Historique des audits</p>
+                </div>
+            </a>
+            <a href="{% url 'operateurs' %}">
+                <div class="dashboard-menu-operateurs {% if request.path == '/operateurs' %}active{% endif %}">
+                    <i data-feather="users"></i>
+                    <p>Opérateurs</p>
+                    <div class="menu-operateurs-add">
+                        <i data-feather="plus"></i>
+                    </div>
+                </div>
+            </a>
+            <a href="{% url 'planning' %}">
+                <div class="dashboard-menu-planning {% if request.path == '/planning' %}active{% endif %}">
+                    <i data-feather="calendar"></i>
+                    <p>Planning</p>
+                </div>
+            </a>
+            <a href="{% url 'parametres' %}">
+                <div class="dashboard-menu-parametre {% if request.path == '/parametres' %}active{% endif %}">
+                    <i data-feather="settings"></i>
+                    <p>Paramètres</p>
+                </div>
+            </a>
+        </div>
+        <div class="dashboard-logout">
+            <a href="{% url 'logout' %}">Déconnexion</a>
+            {% comment %} <p>Déconnexion</p> {% endcomment %}
+            <i data-feather="log-out"></i>
+        </div>
+    </aside>
+    {% block content %}
+    {% endblock %}
+</body>
+{% block script %}
+<script>
+    feather.replace();
+</script>
+{% endblock %}
+</html>

@@ -1,0 +1,57 @@
+{% extends "aside/aside.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    {{block.super}}
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}"/>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <main>
+        <h1>Bonjour, {% if data.username == "Admin" %} Administrateur {%else%} Monsieur {{data.nom}}{%endif%}  </h1>
+        <div class="dashboard-stats">
+            <div class="retards-box">
+                <i data-feather="watch"></i>
+                <div class="retards-stats">
+                    <div class="retards-number">{{data.audits_en_retard}}</div>
+                    <div class="retards-label">Audits en retard</div>
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div class="minutes-arret-box">
+                <i data-feather="zap-off"></i>
+                <div class="minutes-arret-stats">
+                    <div class="minutes-arret-number">{{data.minutes_arret}}</div>
+                    <div class="minutes-arret-label">Minutes d'arrêt</div>
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div class="rendement-box">
+                <i data-feather="zap"></i>
+                <div class="rendement-stats">
+                    <div class="rendement-number">{{data.rendement}}%</div>
+                    <div class="rendement-label">Moyenne rendement</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
+</body>
+<script>
+    feather.replace();
+</script>
+<!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
+</html>
+
+<!-- @never_cache
+@login_required(login_url="/")
+def dashboard_user(request):
+    user = request.user
+    context = {}
+    
+    return render(request, "dashboard_user.html", context=context) -->

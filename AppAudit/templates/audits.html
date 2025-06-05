@@ -1,0 +1,62 @@
+{% extends "aside/aside.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    {{block.super}}
+    <title>Audits</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/audits.css' %}"/>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <main id="swup">
+        <header>
+            <h1>Liste des Audits</h1>
+            <div class="recherche">
+                <input type="text" placeholder="Rechercher" class="recherche-standard">
+                <i data-feather="search"></i>
+            </div>
+        </header>
+        <table>
+            <thead>
+                <td>Audit</td>
+                <td>Auditeur</td>
+                <td>Date prévu</td>
+                <td>Date réalisée</td>
+                <td>Statut</td>
+                <td>Résultat</td>
+            </thead>
+            {% for audit in audit_list %}
+            <tr>
+                <td>{{audit.id}}</td>
+                <td>{{audit.date_prevu}}</td>
+                <td>{{audit.date_realisee}}</td>
+                <td>{{audit.auditeur}}</td>
+                <td>{{audit.statut}}</td>
+                <td>{{audit.resultat}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+
+        <button class="show-bouton" >Créer un nouvel Audit</button>
+
+        <form class="ajout-audit" method="POST">
+            <h2>Ajout audit</h2>
+            {% csrf_token %}
+            <input type="text" class="designation" placeholder="Désignation">
+            <input type="number" class="valeur_attendue" placeholder="Valeur attendue">
+            <input type="text" class="unite" placeholder="Unité">
+            <input type="number" class="machine" placeholder="Machine">
+            <div class="connexion-bouton">Ajouter</div>
+        </form>
+    </main>
+    {% endblock %}
+</body>
+{% block script %}
+{{block.super}}
+<script src="{% static 'js/audits.js' %}"></script>
+{% endblock %}
+</html>

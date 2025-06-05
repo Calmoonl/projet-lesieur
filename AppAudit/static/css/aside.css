@@ -1,0 +1,153 @@
+aside{
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    border-right: 1px solid var(--black-bean);
+    position: relative;
+    transition: 0.2s ease-in-out;
+}
+
+.dashboard-logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+}
+
+.dashboard-logo img{
+    width: 250px;
+    height: 70px;
+    object-fit: cover;
+}
+
+.dashboard-logo p{
+    font-size: 12px;
+    margin-top: -20px;
+}
+
+.dashboard-menu{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dashboard-menu{
+    transition: 0.5s;
+}
+
+.dashboard-menu>div, .dashboard-menu>a>div{
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding-left: 20px;
+    height: 75px;
+    cursor: pointer;
+}
+
+.dashboard-menu>div:hover, .dashboard-menu>a>div:hover{
+    background-color: var(--linen-hover);
+}
+
+.dashboard-menu div.active, .dashboard-menu>a>div.active{
+    background-color: var(--black-bean);
+}
+
+.dashboard-menu div.active *, .dashboard-menu>a>div.active *{
+    color: var(--linen);
+}
+
+.dashboard-menu>div>.feather, .dashboard-menu>a>div>.feather{
+    min-width: 35px;
+    min-height: 35px;
+    stroke-width: 1.5px;
+}
+
+.dashboard-menu div p{
+    margin-left: 15px;
+    white-space: nowrap;
+}
+
+.menu-standards-add, .menu-operateurs-add{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black-bean);
+    width: 30px;
+    height: 30px;
+    border-radius: 1000px;
+    margin-left: 7px;
+    cursor: pointer;
+}
+
+.active .menu-standards-add, .active .menu-operateurs-add{
+    background-color: var(--linen);
+}
+
+.menu-standards-add *, .menu-operateurs-add *{
+    color: var(--linen);
+    transition: 0.1s ease-in-out; 
+}
+
+.active .menu-standards-add *, .active .menu-operateurs-add *{
+    color: var(--black-bean) !important;
+    transition: 0.1s ease-in-out; 
+}
+
+.menu-standards-add:hover .feather, .menu-operateurs-add:hover .feather{
+    width: 20px;
+    height: 20px;
+}
+
+.dashboard-logout{
+    gap: 15px;
+    font-size: 30px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 75px;
+    cursor: pointer;
+}
+
+.dashboard-logout:hover{
+    background-color: var(--linen-hover);
+}
+
+.dashboard-logout .feather{
+    width: 30px;
+    height: 30px;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+
+
+
+@media only screen and (max-height: 850px){
+    .dashboard-menu{
+        max-height: calc(100vh - 225px);
+        overflow-y: scroll;
+    }
+    .dashboard-menu::-webkit-scrollbar{
+        background: var(--linen);
+        width: 5px;
+    }
+    .dashboard-menu::-webkit-scrollbar-thumb{
+        background: var(--black-bean);
+        border-radius: 999px;
+    }
+    .dashboard-logo{
+        z-index: 1;
+        box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    }
+    .dashboard-logout{
+        z-index: 1;
+        box-shadow: 0px -0px 15px 0px rgba(0, 0, 0, 0.1);
+    }
+}

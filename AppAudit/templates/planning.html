@@ -1,0 +1,21 @@
+{% extends "aside/aside.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    {{block.super}}
+    <title>Planning</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/standards.css' %}"/>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <main>
+        <h1>Planning</h1>
+    </main>
+    {% endblock %}
+</body>
+<script src="{% static 'js/standards.js' %}"></script>
+</html>

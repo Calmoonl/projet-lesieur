@@ -1,0 +1,43 @@
+{% extends "aside/aside.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    {{block.super}}
+    <title>Historique</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/standards.css' %}"/>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <main>
+        <h1>Historique des audits</h1>
+
+        <table>
+            <thead>
+                <td>Audit</td>
+                <td>Auditeur</td>
+                <td>Date prévu</td>
+                <td>Date réalisée</td>
+                <td>Statut</td>
+                <td>Résultat</td>
+            </thead>
+            {% for audit in audit_list %}
+            <tr>
+                <td>{{audit.id}}</td>
+                <td>{{audit.date_prevu}}</td>
+                <td>{{audit.date_realisee}}</td>
+                <td>{{audit.auditeur}}</td>
+                <td>{{audit.statut}}</td>
+                <td>{{audit.resultat}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+
+    </main>
+    {% endblock %}
+</body>
+<script src="{% static 'js/standards.js' %}"></script>
+</html>

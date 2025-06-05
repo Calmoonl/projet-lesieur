@@ -1,0 +1,125 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.logo-lesieur{
+    position: absolute;
+    top: 20px;
+    left: 15px;
+} 
+
+.logo-lesieur img{
+    width: 250px;
+    height: 70px;
+    object-fit: cover;
+} 
+
+.connexion-label{
+    font-size: 96px;
+    font-weight: 600;
+    letter-spacing: 7px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.connexion-champs input{
+    height: 100px;
+    width: 400px;
+    border: 5px solid var(--black-bean);
+    background: white;
+    border-radius: 30px;
+    padding-inline: 30px;
+    padding-block: 5px;
+    font-size: 40px;
+}
+
+.connexion-champs input::placeholder{
+    color: var(--black-bean);
+    opacity: 0.3;
+}
+
+.connexion-champs input:focus{
+    outline: none;
+}
+
+.connexion-bouton{
+    background: var(--black-bean);
+    font-size: 64px;
+    border-radius: 20px;
+    height: 125px;
+    width: 400px;
+    box-shadow: 4px 4px 4px 0 var(--black-bean);
+    border: 5px solid var(--black-bean);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 5px;
+    transition: 0.1s ease-in-out;
+    position: relative;
+}
+
+.connexion-bouton:hover{
+    background: var(--linen);
+}
+
+.connexion-bouton p{
+    color: var(--linen);
+}
+
+.connexion-bouton:hover p{
+    color: var(--black-bean);
+}
+
+.loading{
+    position: absolute;
+    display: flex;
+    align-content: center;
+    opacity: 0;
+}
+
+.loading svg{
+    width: 80px;
+    transform-origin: center;
+}
+
+.loading circle{
+    fill: none;
+    stroke: var(--black-bean);
+    stroke-width: 4;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+}
+
+@keyframes rotate4 {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+   
+@keyframes dash4 {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+   
+    50% {
+        stroke-dasharray: 90, 200;
+        stroke-dashoffset: -35px;
+    }
+   
+    100% {
+        stroke-dashoffset: -125px;
+    }
+}

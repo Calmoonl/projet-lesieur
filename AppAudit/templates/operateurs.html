@@ -1,0 +1,43 @@
+{% extends "aside/aside.html" %}
+{% load static %}
+
+{% block site %}
+<p>{{site}}</p>
+{% endblock %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block head %}
+    {{block.super}}
+    <title>Opérateurs</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/standards.css' %}"/>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <main>
+
+        <h1>Opérateurs</h1>
+        <table>
+            <thead>
+                <td>Opérateurs</td>
+                <td>Mail</td>
+                <td>Type auditeur</td>
+                <td>Poste</td>
+            </thead>
+            {% for operateur in operateurs %}
+            <tr>
+                <td>{{operateur.nom_prenom}}</td>
+                <td>{{operateur.mail}}</td>
+                <td>{{operateur.groups}}</td>
+                <td>{% if operateur.poste %} {{operateur.poste}} {% else %} Poste non renseigné {% endif %}</td>
+            </tr>
+            {%endfor%}
+        </table>
+    </main>
+    {% endblock %}
+    
+</body>
+<script src="{% static 'js/standards.js' %}"></script>
+</html>

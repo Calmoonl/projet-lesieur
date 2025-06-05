@@ -1,0 +1,209 @@
+/* ------------------------------------------ */
+/* ------------------header------------------ */
+/* ------------------------------------------ */
+
+header{
+    height: 70px;
+    background: var(--linen);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    font-size: 30px;
+}
+
+
+
+/* ------------------------------------------ */
+/* ------------------MAIN------------------ */
+/* ------------------------------------------ */
+
+
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--black-bean);
+}
+
+
+.standardform-list{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-block: 20px;
+    padding-inline: 10px;
+}
+
+.standardform-item{
+    display: flex;
+    justify-content: space-between;
+    height: 300px;
+    background: var(--linen);
+    border-radius: 20px;
+    width: 100%;
+}
+
+.leftside{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 50%;
+}
+
+.leftside p{
+    font-size: 19px;
+}
+
+.comment{
+    user-select: none;
+}
+
+.rightside{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 50%;
+}
+
+.form-conformite{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.form-conformite div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.wtht-img{
+    border: 2px solid var(--black-bean);
+    border-radius: 20px;
+    font-size: 30px;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-format{
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    width: 50%;
+    gap: 10px;
+}
+
+.form-format select{
+    background: var(--black-bean);
+    border: none;
+    padding-inline: 20px;
+    font-size: 25px;
+    border-radius: 1000px;
+    color: var(--linen);
+}
+
+.form-format select *{
+    color: var(--linen);
+}
+
+.form-valeur{
+    font-size: 25px;
+    display: flex; 
+    align-items: center;
+    width: 50%;
+}
+
+.valeur{
+    width: 70%;
+    display: flex;
+    justify-content: center;
+}
+
+.form-indication{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.conformite-radio{
+    height: 50px;
+    width: 50px;
+    background: white;
+    border-radius: 1000px;
+    box-shadow: inset 5px 5px 5px 0px rgba(0,0,0,0.25);
+}
+
+.conformite-active .conformite-radio{
+    background: var(--black-bean);
+    box-shadow: none;
+} 
+
+
+.valider{
+    background: var(--linen);
+    color: var(--black-bean);
+    font-size: 25px;
+    border-radius: 20px;
+    height: 75px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 15px;
+    padding-block: 7px;
+    user-select: none;
+}
+
+.valider:hover{
+    background: var(--black-bean);
+    border: 1px solid var(--linen);
+    color: var(--black-bean);
+}
+
+.fenetre-commentaire{
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-between; */
+    position: fixed;
+
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+    pointer-events: none;
+    width: 500px;
+    height: fit-content;
+    background: var(--linen);
+    border: 2px solid var(--black-bean);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fenetre-commentaire .close{
+    position: absolute;
+    left: 2px;
+    top: 2px;
+}
+
+.commentaire-input{
+    width: 400px;
+}

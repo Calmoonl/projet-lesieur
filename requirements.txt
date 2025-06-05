@@ -1,0 +1,9 @@
+django
+psycopg2-binary
+pandas
+openpyxl
+asyncio
+pillow
+djangorestframework
+pip-audit
+python-decouple

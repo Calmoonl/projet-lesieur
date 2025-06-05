@@ -1,0 +1,63 @@
+body{
+    display: flex;
+}
+
+/*
+-----------------------------------------------------------------------------
+-------------------------------------MAIN------------------------------------
+-----------------------------------------------------------------------------
+*/
+
+main{
+    padding-block: 40px;
+    padding-inline: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+} 
+
+main h1{
+    font-size: 48px;
+    letter-spacing: 2px;
+} 
+
+.dashboard-stats{
+    display: flex;
+    align-items: center;
+    border-block: 2px solid rgba(66, 24, 26, 0.25);
+    padding-block: 15px;
+    gap: 15px;
+} 
+
+.dashboard-stats>div{
+    display: flex;
+    align-items: center;
+} 
+
+.dashboard-stats .feather{
+    height: 70px;
+    width: 70px;
+    stroke-width: 1.5px;
+} 
+
+.separator{
+    width: 1px;
+    height: 70px;
+    background: var(--black-bean);
+    opacity: 0.5;
+} 
+
+.retards-stats, .minutes-arret-stats, .rendement-stats{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+} 
+
+.retards-number, .minutes-arret-number, .rendement-number{
+    font-size: 48px;
+    line-height: 50%;
+} 
+
+.retards-label, .minutes-arret-label, .rendement-label{
+    font-size: 24px;
+} 
