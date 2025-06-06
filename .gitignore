@@ -2,13 +2,18 @@
 .env
 /venv
 /OLD
+.env.*
+entrypoint.sh
 
 # Fichiers compilés Python
 __pycache__/
 *.py[cod]
 *.pyo
 
-# Visual Studio Code # 
+# Docker
+Dockerfile
+
+# Visual Studio Code 
 .vscode/* 
 !.vscode/settings.json 
 !.vscode/tasks.json 

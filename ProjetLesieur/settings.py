@@ -21,12 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+print("DB_HOST from config:", config("DB_HOST"))
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG'),
-ALLOWED_HOSTS = ['vm.cplr.fr','0.0.0.0']
+ALLOWED_HOSTS = ['*']
 
 # Mise en place HTTPS
 SECURE_SSL_REDIRECT = True  # Force la redirection HTTP → HTTPS
