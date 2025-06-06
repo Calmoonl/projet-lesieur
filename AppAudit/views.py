@@ -22,7 +22,7 @@ locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
 # ------------------------------------------
 # Fonction
 # ------------------------------------------
-def get_lignes(filtre_ligne):
+def get_lignes(filtre_ligne=None):
     lignes_list = []
     # Récupération des lignes
     if filtre_ligne : 
@@ -135,15 +135,8 @@ def standards(request):
     context={}
     context["site"] = "Coudekerque-Branche"
     #context['lignes'] = get_lignes()
-    ligne_dict = {}
     ligne_list = []
-    lignes = Ligne.objects.all()
-    for ligne in lignes : 
-        ligne_dict = {
-            "id" : ligne.id,
-            "num_ligne" : ligne.numero_ligne
-        }
-        ligne_list.append(ligne_dict)
+    ligne_list = get_lignes()
     context["lignes"] = ligne_list
     #print(context)
     
@@ -155,17 +148,26 @@ def standards(request):
                 case "filtre_standard":
                     try : 
                         ligne_list = get_lignes(data["filtre_ligne"])
+                        print(ligne_list)
                         return JsonResponse({"lignes": ligne_list}, status=200)
                         context["lignes"] = ligne_list
                         print(context)
                         return render(request, "standards.html",context=context)
                     except Exception as e :
                         print(e)
-            #standard = Standard.objects.create(designation=data["designation"],valeur_attendue=data["valeur_attendue"],unite=data["unite"],machine=Machine.objects.get(id=int(data["machine"])))
-            #print(standard)
+                case "ajout_ligne":
+                    #print(data["ligne"])
+                    Ligne.objects.create(numero_ligne=data["ligne"])
+                case "ajout_machine":
+                    #print(data["ligne"] + data["machine"])
+                    ligne = Ligne.objects.get(numero_ligne=data["ligne"])
+                    Machine.objects.create(ligne=ligne,designation=data["machine"])
+                case "ajout_standard":
+                    print("Ajout standard")
+                    Standard.objects.create(designation=data["designation"],valeur_attendue=data["valeur_attendue"],unite=data["unite"],machine=Machine.objects.get(id=int(data["machine"])))
         except Exception as e :
             print(e)
-    
+    #print(context)
     return render(request, "standards.html",context=context)
 
 @never_cache

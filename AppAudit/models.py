@@ -20,7 +20,6 @@ class Machine(models.Model):
         return self.designation
 
 
-# ⬇️ Déclare la classe Photo AVANT Standard
 class Photo(models.Model):
     titre = models.CharField(max_length=255)
     image = models.ImageField(upload_to='photos/')
@@ -70,7 +69,6 @@ class Audit(models.Model):
     auditeur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='audits')
     date_prevu = models.DateField()
     date_realisee = models.DateField(null=True, blank=True)
-
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='NON_ATTRIBUE')
     resultat = models.CharField(max_length=20, choices=RESULTAT_CHOICES, null=True, blank=True)
 

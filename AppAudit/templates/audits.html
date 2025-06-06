@@ -12,6 +12,14 @@
 </head>
 <body>
     {% block content %}
+    <form class="ajout-audit" method="POST">
+        <h2>Ajout audit</h2>
+        <input type="text" class="designation" placeholder="Désignation">
+        <input type="number" class="valeur_attendue" placeholder="Valeur attendue">
+        <input type="text" class="unite" placeholder="Unité">
+        <input type="number" class="machine" placeholder="Machine">
+        <div class="connexion-bouton">Ajouter</div>
+    </form>
     <main id="swup">
         <header>
             <h1>Liste des Audits</h1>
@@ -41,17 +49,7 @@
             {%endfor%}
         </table>
 
-        <button class="show-bouton" >Créer un nouvel Audit</button>
-
-        <form class="ajout-audit" method="POST">
-            <h2>Ajout audit</h2>
-            {% csrf_token %}
-            <input type="text" class="designation" placeholder="Désignation">
-            <input type="number" class="valeur_attendue" placeholder="Valeur attendue">
-            <input type="text" class="unite" placeholder="Unité">
-            <input type="number" class="machine" placeholder="Machine">
-            <div class="connexion-bouton">Ajouter</div>
-        </form>
+        <button class="ajouter-audit" >Créer un nouvel Audit</button>
     </main>
     {% endblock %}
 </body>

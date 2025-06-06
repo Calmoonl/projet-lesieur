@@ -17,7 +17,6 @@
             <h2>Ajout Ligne</h2>
             <i data-feather="x" class="ajout-ligne-fermer"></i>
         </div>
-        {% csrf_token %}
         <div>
             <p>Nom de la ligne</p>
             <input type="text" placeholder="Nom de la ligne">
@@ -29,7 +28,14 @@
             <h2>Ajout Machine</h2>
             <i data-feather="x" class="ajout-machine-fermer"></i>
         </div>
-        {% csrf_token %}
+        <div>
+            <label for="ligne">Ligne</label>
+            <select name="ligne" class="ajout-standard-ligne-select">
+                {% for ligne in lignes %}
+                    <option value="{{ligne.num_ligne}}">{{ligne.num_ligne}}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div>
             <p>Nom de la machine</p>
             <input type="text" placeholder="Nom de la machine">
@@ -42,18 +48,9 @@
                 <h2>Ajout standards</h2>
                 <i data-feather="x" class="ajout-standard-fermer"></i>
             </div>
-            {% csrf_token %}
-            <div>
-                <label for="ligne">Ligne</label>
-                <select name="ligne" class="ajout-standard-ligne-select">
-                    {% for ligne in lignes %}
-                        <option value="{{ligne.num_ligne}}">{{ligne.num_ligne}}</option>
-                    {% endfor %}
-                </select>
-            </div>
             <div>
                 <label for="machine">Machine</label>
-                <select name="machine" class="ajout-standard-vmachine-select">
+                <select name="machine" class="ajout-standard-machine-select">
                     {% for ligne in lignes %}
                         {% for machine in ligne.machines %}
                             <option value="{{machine.designation}}">{{machine.designation}}</option>
@@ -104,7 +101,7 @@
             <div class="validation-ajout-standard-bouton">Ajouter</div>
         </div>
     </form>
-    <main id="swup">
+    <main>
         <header>
             <h1>Standards d'audit</h1>
             <div class="recherche">
@@ -131,7 +128,7 @@
         </div>
         </div>
         
-        <table border=1 frame=void rules=rows>
+        <table frame=void rules=rows>
             <thead>
                 <td>Machine</td>
                 <td>Ligne</td>

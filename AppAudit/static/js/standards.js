@@ -122,7 +122,7 @@ $(window).click(function() {
 });
 
 $('.ajout-standard-fenetre, .ajout-ligne, .ajout-machine, .ajouter-standard, .ajouter-ligne, .ajouter-machine').click(function(event){
-    if ($(event.target).attr('class') != "validation-ajout-standard-bouton" || $(event.target).attr('class') != "validation-ajout-ligne-bouton" || $(event.target).attr('class') != "validation-ajout-machine-bouton") {
+    if ($(event.target).attr('class') != "validation-ajout-standard-bouton" && $(event.target).attr('class') != "validation-ajout-ligne-bouton" && $(event.target).attr('class') != "validation-ajout-machine-bouton") {
         event.stopPropagation();
     }
 });
@@ -137,10 +137,43 @@ $('.ajout-standard-image-upload').on('change', function(e){
     console.log($(this).val());
 })
 
+$(document).on('click', '.validation-ajout-ligne-bouton', function(){
+    ligne = $('.ajout-ligne input').val()    
+    dataForm = {'fonction':"ajout_ligne",'ligne' : ligne}
+    $.ajax({
+        type: "POST",
+        url: "/standards",
+        data: JSON.stringify(dataForm),
+        contentType: "application/json",
+        dataType: 'json',
+        // On envoie le token en header pour que la requête soit validée
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken); // Ajoute CSRF dans le header
+        },
+    });
+})
+
+$(document).on('click', '.validation-ajout-machine-bouton', function(){
+    ligne = $('.ajout-standard-ligne-select').val()
+    machine = $('.ajout-machine input').val()
+    dataForm = {'fonction':"ajout_machine",'ligne': ligne,'machine' : machine}
+    console.log(dataForm)
+    $.ajax({
+        type: "POST",
+        url: "/standards",
+        data: JSON.stringify(dataForm),
+        contentType: "application/json",
+        dataType: 'json',
+        // On envoie le token en header pour que la requête soit validée
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken); // Ajoute CSRF dans le header
+        },
+    });
+})
+
 $(document).on('click', '.validation-ajout-standard-bouton', function(){
     console.log("test");
     
-    ligne = $('.ajout-standard-ligne-select').val()
     machine = $('.ajout-standard-vmachine-select').val()
     repere = $('.ajout-standard-repere-input').val()
     designation = $('.ajout-standard-designation-input').val()
@@ -155,8 +188,8 @@ $(document).on('click', '.validation-ajout-standard-bouton', function(){
          formats[$(this).val()] = $('.format-valeur-input').eq(indexInArray).val()
     });
 
-    var userData = {
-        "ligne": ligne,
+    var dataForm = {
+        "fonction":"ajout_stantard",
         "machine": machine,
         "repere": repere,
         "designation": designation,
@@ -165,42 +198,19 @@ $(document).on('click', '.validation-ajout-standard-bouton', function(){
         "photo": photo
     };
 
-    console.log(userData);
+    console.log(dataForm);
     
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/standards",
-    //     data: JSON.stringify(userData),
-    //     contentType: "application/json",
-    //     dataType: 'json',
-    //     // On envoie le token en header pour que la requête soit validée
-    //     beforeSend: function(xhr) {
-    //         xhr.setRequestHeader("X-CSRFToken", csrftoken); // Ajoute CSRF dans le header
-    //     },
-    //     success: function(response) {
-    //         if(response.success){
-    //             window.location.href = response.redirect_url;
-    //         } else {
-    //             alert(response.message)
-    //         }
-    //     }
-    // });
-})
-
-$(document).on('click', '.validation-ajout-ligne-bouton', function(){
-    ligne = $('.ajout-ligne input').val()
-
-    dataUser = {
-        'ligne' : ligne
-    }
-})
-
-$(document).on('click', '.validation-ajout-machine-bouton', function(){
-    machine = $('.ajout-machine input').val()
-
-    dataUser = {
-        'machine' : machine
-    }
+    $.ajax({
+        type: "POST",
+        url: "/standards",
+        data: JSON.stringify(dataForm),
+        contentType: "application/json",
+        dataType: 'json',
+        // On envoie le token en header pour que la requête soit validée
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken); // Ajoute CSRF dans le header
+        },
+    });
 })
 
 vuePage = 1
@@ -252,54 +262,57 @@ $('.standard-vue svg.feather-chevron-right').on('click', function(){
     }
 })
 
-var data = {"fonction":"filtre_standard","recherche": "a","filtre_ligne": "GE","page": 1};
-$.ajax({
-    csrftoken : csrftoken,
-    type: "POST",
-    url: "/standards",
-    data: JSON.stringify(data),
-    beforeSend: function(xhr) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken); // Ajoute CSRF dans le header
-    },
-    success: function (response) {
-        console.log(response);
+
+
+
+// var data = {"fonction":"filtre_standard","recherche": "a","filtre_ligne": "GE","page": 1};
+// $.ajax({
+//     csrftoken : csrftoken,
+//     type: "POST",
+//     url: "/standards",
+//     data: JSON.stringify(data),
+//     beforeSend: function(xhr) {
+//             xhr.setRequestHeader("X-CSRFToken", csrftoken); // Ajoute CSRF dans le header
+//     },
+//     success: function (response) {
+//         console.log(response);
         
-        $.each(response['lignes'], function (indexInArray, valueOfElement) { 
-            ligne = valueOfElement
-            console.log(ligne);
-            $.each(ligne['machines'], function (indexInArray, valueOfElement) { 
-                machine = valueOfElement
-                console.log(machine);
-                $.each(machine['standards'], function (indexInArray, valueOfElement) { 
-                    standard = valueOfElement
-                    console.log(standard);
-                    tableLigne = '<tr style="opacity: 0; transform: translateX(-5px);"><td>' + machine['designation']
-                    tableLigne += '</td><td>' + ligne['num_ligne'] + '</td><td>' + standard['rep']
-                    tableLigne += '</td><td>' + standard['designation'] + '</td><td>'
-                    if(standard['formats'].length == 0){
-                        tableLigne += '<i style="opacity: 0.8;">Aucun format renseigné</i>'
-                    }else if(standard['formats'].length == 1){
-                        tableLigne += '<div>' + standard['formats']['0']['nom'] + '</div>'
-                    }else{
-                        tableLigne += '<select name="format" class="format-input">'
-                        $.each(standard['formats'], function (indexInArray, valueOfElement) { 
-                            format = valueOfElement
-                            tableLigne += '<option value="' + format['nom'] + '">' + format['nom'] + '</option>'
-                        });
-                        tableLigne += '</select>'
-                    }
-                    tableLigne += '</td><td>'
-                    $.each(standard['formats'], function (indexInArray, valueOfElement) { 
-                        format = valueOfElement
-                        tableLigne += '<div>' + format['valeur_attendue'] + '</div>'
-                    });
-                    tableLigne += '</td><td>' + standard['photo']['url'] + '</td></tr>'
-                    $('table').append(tableLigne)
-                    $('tr').each(function(index, element) {
-                        gsap.to($(element), {x: 0, opacity: 1, duration: 0.1, delay: 0.02*index+0.2, ease: 'ease-in-out'});
-                    });
-                });
-            });
-        });
-    }
-});
+//         $.each(response['lignes'], function (indexInArray, valueOfElement) { 
+//             ligne = valueOfElement
+//             console.log(ligne);
+//             $.each(ligne['machines'], function (indexInArray, valueOfElement) { 
+//                 machine = valueOfElement
+//                 console.log(machine);
+//                 $.each(machine['standards'], function (indexInArray, valueOfElement) { 
+//                     standard = valueOfElement
+//                     console.log(standard);
+//                     tableLigne = '<tr style="opacity: 0; transform: translateX(-5px);"><td>' + machine['designation']
+//                     tableLigne += '</td><td>' + ligne['num_ligne'] + '</td><td>' + standard['rep']
+//                     tableLigne += '</td><td>' + standard['designation'] + '</td><td>'
+//                     if(standard['formats'].length == 0){
+//                         tableLigne += '<i style="opacity: 0.8;">Aucun format renseigné</i>'
+//                     }else if(standard['formats'].length == 1){
+//                         tableLigne += '<div>' + standard['formats']['0']['nom'] + '</div>'
+//                     }else{
+//                         tableLigne += '<select name="format" class="format-input">'
+//                         $.each(standard['formats'], function (indexInArray, valueOfElement) { 
+//                             format = valueOfElement
+//                             tableLigne += '<option value="' + format['nom'] + '">' + format['nom'] + '</option>'
+//                         });
+//                         tableLigne += '</select>'
+//                     }
+//                     tableLigne += '</td><td>'
+//                     $.each(standard['formats'], function (indexInArray, valueOfElement) { 
+//                         format = valueOfElement
+//                         tableLigne += '<div>' + format['valeur_attendue'] + '</div>'
+//                     });
+//                     tableLigne += '</td><td>' + standard['photo']['url'] + '</td></tr>'
+//                     $('table').append(tableLigne)
+//                     $('tr').each(function(index, element) {
+//                         gsap.to($(element), {x: 0, opacity: 1, duration: 0.1, delay: 0.02*index+0.2, ease: 'ease-in-out'});
+//                     });
+//                 });
+//             });
+//         });
+//     }
+// });

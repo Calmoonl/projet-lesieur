@@ -2,10 +2,15 @@
     background: var(--linen);
     display: flex;
     flex-direction: column;
+    padding: 10px 20px;
+    border-radius: 20px
 }
 
 .commencer-audit{
     background: var(--black-bean);
     border-radius: 999px;
-
+    width: fit-content;
+    color: var(--linen);
+    align-self: flex-end;
+    padding: 10px 20px;
 }   
