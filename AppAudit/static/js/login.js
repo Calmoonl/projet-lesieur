@@ -17,7 +17,7 @@ function loginTry(){
         beforeSend: function(xhr) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken); // Ajoute CSRF dans le header
         },
-        success: function(response) {
+        success: function(response,textStatus,jqXHR) {
             $('.loading svg').css({
                 "animation" : "none"
             })
@@ -36,11 +36,19 @@ function loginTry(){
             })
             $('.connexion-bouton').attr("style","")
             $('.connexion-bouton p').attr("style","")
+
             if(response.success){
                 window.location.href = response.redirect_url;
+            } 
+        },
+        error: function(jqXHR){
+            if(jqXHR.status === 429){
+                alert("Votre compte est temporairement bloqué. Veuillez réessayer plus tard.");
+            } else if(jqXHR.status === 401){
+                alert("Identifiant et/ou mot de passe erroné(s).");
             } else {
-                alert(response.message)
-            }
+                alert("Erreur serveur ou réseau. Veuillez réessayer.");
+        }
         }
     });
     $('.loading svg').css({

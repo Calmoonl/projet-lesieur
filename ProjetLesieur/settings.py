@@ -21,13 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-print("DB_HOST from config:", config("DB_HOST"))
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG'),
+DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['*']
 
 # Mise en place HTTPS
@@ -45,6 +43,10 @@ SESSION_COOKIE_AGE = 7200 # dure deux heures
 SESSION_SAVE_EVERY_REQUEST = False
 
 
+# Gestion des éches auth
+AXES_FAILURE_LIMIT = 5  # nombre de tentatives max
+AXES_COOLOFF_TIME = 1/12  # durée de blocage en heures donc 5 mins
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,15 +57,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',# creation user depuis l'ad 
     'AppAudit', # Nom de notre app 
+    'axes' # gestion des sessions
 ]
 
 # Utiliser la session dans la base de données
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
-
-# Gérer les images 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,9 +71,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware'
 ]
 
 ROOT_URLCONF = 'ProjetLesieur.urls'
+
+# Ordre de vérification (bloqué user sinon authentifié)
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 
 TEMPLATES = [
     {

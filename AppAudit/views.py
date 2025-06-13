@@ -1,23 +1,27 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from django.contrib.auth import authenticate,logout as auth_logout,login as auth_login
-import json
-import pandas as pd
-from .models import Standard,Machine, Format,Audit,StandardAudit,Ligne,Photo
+from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User,Group
-from datetime import datetime
-import locale
+from django.db.models import Prefetch
+from .models import Standard,Machine, Format,Audit,StandardAudit,Ligne,Photo
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth.models import User
-from .serializers import UserImportSerializer
 from rest_framework import status
-
+from .serializers import UserImportSerializer
+from axes.handlers.proxy import AxesProxyHandler
+import json
+import pandas as pd
+from datetime import datetime
+import locale
+import logging
 
 
 locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
+
+logger = logging.getLogger(__name__)
 
 # ------------------------------------------
 # Fonction
@@ -86,8 +90,14 @@ def login_view(request):
     if request.user.is_authenticated:
         redirect_url = "/dashboardUser" if request.user.groups.filter(name="Auditeur").exists() else "/dashboard"
         return redirect(redirect_url)
+    
+    handler = AxesProxyHandler()
+    
     if request.method == 'POST':
         try:
+            # Si utilisateur bloqué
+            if handler.is_locked(request):
+                return JsonResponse({"success": False,"locked": True}, status=429)
             data = json.loads(request.body)
             user = authenticate(request, username=data["login"], password=data["mdp"])
             if user is not None :
@@ -98,7 +108,7 @@ def login_view(request):
                 else :
                     return JsonResponse({"success" :True ,"redirect_url": "/dashboard"})         
             else :
-                return JsonResponse({"success" :False, "message": "Identifiant et/ou mot de passe erroné(s) "})         
+                return JsonResponse({"success" :False},status=401)         
 
         except Exception as e:
             print(f"Erreur : {e}")
@@ -380,15 +390,40 @@ def delete_user(request, username):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 # test excel
+import pandas as pd
+from django.shortcuts import render
+
 def import_xl_view(request):
     context = {}
-    try :   
-        data = pd.read_excel("AppAudit/static/excel/AUDIT STANDARDS REGLAGES GE.xlsx",engine="openpyxl")
-        data_html = data.head().to_html()
-        print(data.head().to_json())
-        context ={"data": data}
+    excel_path = "AppAudit/static/excel/AUDIT STANDARDS REGLAGES GE.xlsx"
+
+    try:
+        # Lire tout sans en-tête
+        df_raw = pd.read_excel(excel_path, header=None, engine="openpyxl")
+
+        # Trouver l'index de la ligne contenant les vrais noms de colonnes
+        header_index = df_raw[df_raw.iloc[:, 0] == "MACHINE"].index
+        if header_index.empty:
+            raise ValueError("Ligne d'en-tête non trouvée (pas de 'MACHINE' en première colonne).")
+
+        header_row = header_index[0]
+
+        # Lire à nouveau en utilisant cette ligne comme en-tête
+        df = pd.read_excel(excel_path, engine="openpyxl", header=header_row)
+
+        # Supprimer les lignes dupliquées d'en-têtes (ex: 'MACHINE' apparaît plusieurs fois)
+        df = df[df.iloc[:, 0] != "MACHINE"]
+
+        # Nettoyage : enlever colonnes totalement vides
+        df.dropna(axis=1, how='all', inplace=True)
+
+        # Affichage des 10 premières lignes dans le template
+        preview_html = df.head(10).to_html(classes="table table-bordered table-striped", index=False)
+        context["data_html"] = preview_html
+
+    except Exception as e:
+        context["error"] = f"Erreur : {str(e)}"
         
-    except Exception as e :
-        context ={"data": e}
-        print(e)
-    return render(request,"read_xl.html",context=context)
+    print(context)    
+    
+    return render(request, "read_xl.html", context)

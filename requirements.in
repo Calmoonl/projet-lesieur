@@ -9,3 +9,4 @@ pip-audit
 pip-tools
 python-decouple
 bandit
+django-axes
